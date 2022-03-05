@@ -1,0 +1,137 @@
+<%- include("./layout/head.ejs") %>
+
+    <body class="h-100 bg-black">
+        <div class="container h-100 overflow-hidden bg-white">
+            <div class="row h-100">
+                <div class="col-4 h-100 mx-auto d-flex justify-content-center align-items-center">
+                    <form name="login" method="post">
+                        <h1>Why don't you just login?</h1>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="login_username" name="login_username"
+                                placeholder="User Name" required maxlength="16">
+                            <label for="login_username">User Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="login_password" name="login_password"
+                                placeholder="Password" required maxlength="16">
+                            <label for="login_password">Password</label>
+                        </div>
+                        <div class="row">
+                            <div class="form-floating col-md-6 mb-3">
+                                <small><a href="" class="go-to-register text-muted">I haven't any ticket, register
+                                        me.</a></small>
+                            </div>
+                            <div class="form-floating col-md-6 mb-3"> <small><a href="" class="text-muted">I forgot my
+                                        f*cking
+                                        password!
+                                        Open the door!</a></small></div>
+                        </div>
+                        <button>Login</button>
+                    </form>
+                </div>
+                <div class="col-4 h-100 mx-auto d-none justify-content-center align-items-center">
+                    <form name="register" method="post">
+                        <h1>Star Gate</h1>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="register_username" name="register_username"
+                                placeholder="User Name" required maxlength="16">
+                            <label for="register_username">User Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="register_password" name="register_password"
+                                placeholder="Password" required maxlength="16">
+                            <label for="register_password">Password</label>
+                        </div>
+                        <div class="form-floating mb-3"><small><a href="" class="go-to-login text-muted">I have a ticket
+                                    to enter. I
+                                    forgot it sry...</a></small></div>
+                        <button>Register me as a star</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+            integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+            integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+            crossorigin="anonymous"></script>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+        <script>
+            function formChanger(formName, self) {
+                if (formName == "register") {
+                    $(self).parents('[class^="col"]').removeClass("d-flex").addClass("d-none");
+                    $('form[name="register"]').parents('[class^="col"]').addClass("d-flex").removeClass("d-none");
+                } else if (formName == "login") {
+                    $(self).parents('[class^="col"]').removeClass("d-flex").addClass("d-none");
+                    $('form[name="login"]').parents('[class^="col"]').addClass("d-flex").removeClass("d-none");
+                }
+            }
+
+            $(".go-to-register").click(function (e) {
+                e.preventDefault();
+                formChanger("register", this)
+            })
+
+            $(".go-to-login").click(function (e) {
+                e.preventDefault();
+                formChanger("login", this)
+            })
+
+            $("form[name='login']").submit(function (e) {
+                e.preventDefault();
+
+                var username = $("#login_username").val();
+                var password = $("#login_password").val();
+
+                var formData = {
+                    username,
+                    password
+                }
+
+                var user = JSON.parse(localStorage.getItem(localStorage.key("user")));
+
+                if (user.username == username && user.password == password) {
+                    console.log("Logged In!");
+                    setTimeout(() => {
+                        window.location = "/fknadminpanel"
+                    }, 1000);
+                } else {
+                    console.log("There is no such user!");
+                }
+
+                $.ajax({
+                    url: "/adminaf",
+                    type: "POST",
+                    data: formData,
+                    success: function (response) {
+                        // window.location = "/"
+                    },
+                    error: function (err) {
+                        console.log(err.status);
+                    }
+                })
+            })
+
+            $("form[name='register']").submit(function (e) {
+                e.preventDefault();
+
+                var username = $("#register_username").val();
+                var password = $("#register_password").val();
+
+                localStorage.setItem("user", JSON.stringify({ "username": username, "password": password }));
+
+                $(this).parents('[class^="col"]').removeClass("d-flex").addClass("d-none");
+                $('form[name="login"]').parents('[class^="col"]').addClass("d-flex").removeClass("d-none");
+            })
+
+        </script>
+    </body>
+
+    </html>
