@@ -1,4 +1,6 @@
-<%- include("./layout/head.ejs") %>
+// YOU JUST NEED TO STYLE THE FORMS
+// BOOTSTRAP 5 USED
+<%- include("./layout/head.ejs") %> // You can delete this -______-
 
     <body class="h-100 bg-black">
         <div class="container h-100 overflow-hidden bg-white">
@@ -18,13 +20,9 @@
                         </div>
                         <div class="row">
                             <div class="form-floating col-md-6 mb-3">
-                                <small><a href="" class="go-to-register text-muted">I haven't any ticket, register
-                                        me.</a></small>
+                                <small><a href="" class="go-to-register text-muted">I haven't any account</a></small>
                             </div>
-                            <div class="form-floating col-md-6 mb-3"> <small><a href="" class="text-muted">I forgot my
-                                        f*cking
-                                        password!
-                                        Open the door!</a></small></div>
+                            <div class="form-floating col-md-6 mb-3"> <small><a href="" class="text-muted">I forgot my password</a></small></div>
                         </div>
                         <button>Login</button>
                     </form>
@@ -42,9 +40,7 @@
                                 placeholder="Password" required maxlength="16">
                             <label for="register_password">Password</label>
                         </div>
-                        <div class="form-floating mb-3"><small><a href="" class="go-to-login text-muted">I have a ticket
-                                    to enter. I
-                                    forgot it sry...</a></small></div>
+                        <div class="form-floating mb-3"><small><a href="" class="go-to-login text-muted">I have an account</a></small></div>
                         <button>Register me as a star</button>
 
                     </form>
@@ -76,12 +72,12 @@
 
             $(".go-to-register").click(function (e) {
                 e.preventDefault();
-                formChanger("register", this)
+                formChanger("register", this);
             })
 
             $(".go-to-login").click(function (e) {
                 e.preventDefault();
-                formChanger("login", this)
+                formChanger("login", this);
             })
 
             $("form[name='login']").submit(function (e) {
@@ -107,14 +103,14 @@
                 }
 
                 $.ajax({
-                    url: "/adminaf",
+                    url: "/formpage",
                     type: "POST",
                     data: formData,
                     success: function (response) {
                         // window.location = "/"
                     },
                     error: function (err) {
-                        console.log(err.status);
+                        console.log("Error Code: " + err.status);
                     }
                 })
             })
