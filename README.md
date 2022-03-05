@@ -1,1 +1,1 @@
-# Basic-LocalStorage-Auth
+# EJS-Basic-LocalStorage-Auth
